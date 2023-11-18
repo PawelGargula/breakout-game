@@ -140,12 +140,11 @@ function startGame() {
 
 function handleOrientation(e) {
     const x = e.gamma;
-    scoreText.setText('Points: ' + e.gamma);
     if (!playing) {
         return;
     } else if (x < 0 && paddle.x > paddle.width / 2) {
-        paddle.x -= x;
+        paddle.x += x;
     } else if (x > 0 && paddle.x < game.width - paddle.width / 2) {
-        paddle.x -= x;
+        paddle.x += x;
     }
 }
