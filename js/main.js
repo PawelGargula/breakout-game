@@ -145,6 +145,6 @@ function handleOrientation(e) {
     } else if (x < 0 && paddle.x > paddle.width / 2) {
         paddle.x -= x;
     } else if (x > 0 && paddle.x < game.width - paddle.width / 2) {
-        paddle.x += x;
+        paddle.x -= x;
     }
 }
