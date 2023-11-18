@@ -139,7 +139,6 @@ function startGame() {
 }
 
 function handleOrientation(e) {
-    alert("working")
     const x = e.gamma;
     if (!playing) {
         return;
