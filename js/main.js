@@ -1,19 +1,20 @@
 const game = new Phaser.Game(480, 320, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
 window.addEventListener("deviceorientation", handleOrientation, true);
 let ball;
-const ballVelocity = 100;
-let paddle;
-let bricks;
-let newBrick;
+const ballVelocity = 200;
 let brickInfo;
+let bricks;
+let isPortrait = window.matchMedia("(orientation: portrait)").matches;
+let keys;
+let lives = 3;
+let lifeLostText;
+let livesText;
+let newBrick;
+let paddle;
+let playing = false;
 let scoreText;
 let score = 0;
-let lives = 3;
-let livesText;
-let lifeLostText;
-let playing = false;
 let startButton;
-let keys;
 
 function preload() {
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -56,6 +57,9 @@ function create() {
     startButton.anchor.set(0.5);
     keys = game.input.keyboard.createCursorKeys();
     window.addEventListener("deviceorientation", handleOrientation, true);
+    window.matchMedia("(orientation: portrait)").addEventListener("change", e => {
+        isPortrait = e.matches;
+    });
 }
 function update() {
     game.physics.arcade.collide(ball, paddle, ballHitPaddle);
@@ -140,11 +144,12 @@ function startGame() {
 
 function handleOrientation(e) {
     const x = e.gamma;
+    const y = e.beta;
     if (!playing) {
         return;
-    } else if (x < 0 && paddle.x > paddle.width / 2) {
+    } else if (isPortrait && (x < 0 && paddle.x > paddle.width / 2 || x > 0 && paddle.x < game.width - paddle.width / 2)) {
         paddle.x += x;
-    } else if (x > 0 && paddle.x < game.width - paddle.width / 2) {
-        paddle.x += x;
+    } else if (!isPortrait && (y < 0 && paddle.x > paddle.width / 2 || y > 0 && paddle.x < game.width - paddle.width / 2)) {
+        paddle.x += y;
     }
 }
