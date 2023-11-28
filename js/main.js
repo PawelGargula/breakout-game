@@ -76,14 +76,14 @@ function preload() {
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
     game.stage.backgroundColor = '#000';
-    game.load.image('paddle', 'img/kosmos/kosmos_paddle.bmp', 104, 24);
+    game.load.image('paddle', 'img/kosmos_paddle.bmp', 104, 24);
     game.load.image('redBrick', 'img/brick_red.bmp');
     game.load.image('orangeBrick', 'img/brick_orange.bmp');
     game.load.image('yellowBrick', 'img/brick_yellow.bmp');
     game.load.image('grayBrick', 'img/brick_gray.bmp');
     game.load.image('lightGrayBrick', 'img/brick_light_gray.bmp');
     game.load.image('blueBrick', 'img/brick_blue.bmp');
-    game.load.spritesheet('ball', 'img/kosmos/ball.bmp', 16, 16);
+    game.load.spritesheet('ball', 'img/ball.bmp', 16, 16);
     game.load.spritesheet('button', 'img/button.png', 120, 40);
 }
 function create() {
