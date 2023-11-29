@@ -8,7 +8,7 @@ let isPortrait = window.matchMedia("(orientation: portrait)").matches;
 let keys;
 let lives = 3;
 let lifeLostText;
-let livesText;
+let hearts;
 let newBrick;
 let paddle;
 let playing = false;
@@ -85,6 +85,7 @@ function preload() {
     game.load.image('blueBrick', 'img/brick_blue.bmp');
     game.load.spritesheet('ball', 'img/ball.bmp', 16, 16);
     game.load.spritesheet('button', 'img/button.png', 120, 40);
+    game.load.spritesheet('heart', 'img/heart.bmp', 20, 20);
 }
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -106,8 +107,11 @@ function create() {
 
     textStyle = { font: '18px Arial', fill: '#FFF' };
     scoreText = game.add.text(5, 5, 'Points: 0', textStyle);
-    livesText = game.add.text(game.world.width - 5, 5, 'Lives: ' + lives, textStyle);
-    livesText.anchor.set(1, 0);
+    hearts = game.add.group();
+    for (let i = 1; i <= lives; i++) {
+        const heart = game.add.sprite(game.world.width - 25 * i, 5, "heart");
+        hearts.add(heart);
+    }
     lifeLostText = game.add.text(game.world.width * 0.5, game.world.height * 0.5, 'Life lost, tap to continue', textStyle);
     lifeLostText.anchor.set(0.5);
     lifeLostText.visible = false;
@@ -174,9 +178,9 @@ function ballLeaveScreen() {
     lives--;
     playing = false;
     if (lives) {
-        livesText.setText('Lives: ' + lives);
+        hearts.children[lives].kill();
         lifeLostText.visible = true;
-        ball.reset(game.world.width * 0.5, game.world.height - 40);
+        ball.reset(game.world.width * 0.5, game.world.height - 52);
         paddle.reset(game.world.width * 0.5, game.world.height - 20);
         game.input.onDown.addOnce(function () {
             lifeLostText.visible = false;
