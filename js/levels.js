@@ -5,8 +5,8 @@ class Level {
 }
 
 const cosmos = new Level();
-cosmos.paddleSrc = "img/cosmos/cosmos_paddle.bmp";
-cosmos.ballSrc = "img/cosmos/cosmos_ball.bmp";
+cosmos.paddleSrc = "img/cosmos/paddle.bmp";
+cosmos.ballSrc = "img/cosmos/ball.bmp";
 cosmos.bricks.set("0,3", "yellowBrick");
 cosmos.bricks.set("0,4", "grayBrick");
 cosmos.bricks.set("0,5", "grayBrick");
