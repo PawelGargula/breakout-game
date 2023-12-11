@@ -11,12 +11,15 @@ function generateLevel(level) {
     let bricks;
     let isPortrait = window.matchMedia("(orientation: portrait)").matches;
     let keys;
+    let left;
     let lives = 3;
     let lifeLostText;
     let hearts;
     let newBrick;
     let paddle;
     let playing = false;
+    let phone;
+    let right;
     let scoreText;
     let score = 0;
     let startButton;
@@ -34,9 +37,12 @@ function generateLevel(level) {
         game.load.image('grayBrick', 'img/brick_gray.bmp');
         game.load.image('lightGrayBrick', 'img/brick_light_gray.bmp');
         game.load.image('blueBrick', 'img/brick_blue.bmp');
-        game.load.spritesheet('ball', level.ballSrc, 16, 16);
-        game.load.spritesheet('button', 'img/button.png', 120, 40);
-        game.load.spritesheet('heart', 'img/heart.bmp', 20, 20);
+        game.load.image('ball', level.ballSrc, 16, 16);
+        game.load.image('button', 'img/start-button.png', 120, 40);
+        game.load.image('heart', 'img/heart.png', 20, 20);
+        game.load.image('right', 'img/right.png', 50, 30);
+        game.load.image('left', 'img/left.png', 50, 30);
+        game.load.image('phone', 'img/phone.png', 65, 53);
     }
 
     function create() {
@@ -70,6 +76,15 @@ function generateLevel(level) {
 
         startButton = game.add.button(game.world.width * 0.5, game.world.height * 0.5, 'button', startGame, this, 1, 0, 2);
         startButton.anchor.set(0.5);
+
+        const margin = 100;
+        left = game.add.sprite(game.world.width * 0.5 - margin, game.world.height * 0.5 + margin, 'left');
+        left.anchor.set(0.5);
+        right = game.add.sprite(game.world.width * 0.5 + margin, game.world.height * 0.5 + margin, 'right');
+        right.anchor.set(0.5);
+        phone = game.add.sprite(game.world.width * 0.5, game.world.height * 0.5 + margin, 'phone');
+        phone.anchor.set(0.5);
+
         keys = game.input.keyboard.createCursorKeys();
         window.addEventListener("deviceorientation", handleOrientation, true);
         window.matchMedia("(orientation: portrait)").addEventListener("change", e => {
@@ -156,6 +171,10 @@ function generateLevel(level) {
 
     function startGame() {
         startButton.destroy();
+        left.destroy();
+        right.destroy();
+        phone.destroy();
+
         ball.body.velocity.set(ballVelocity, -ballVelocity);
         playing = true;
     }
