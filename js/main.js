@@ -1,8 +1,16 @@
 import { levels } from "./levels.js";
 
-generateLevel(levels.cosmos);
+const levelsDom = document.querySelector(".levels");
+const hideLevels = () => levelsDom.classList.add("hide");
+const showLevels = () => levelsDom.classList.remove("hide");
+levelsDom.addEventListener("click", (e) => {
+    if (e.target.className.includes("level")) {
+        generateLevel(levels.cosmos);
+    }
+});
 
 function generateLevel(level) {
+    hideLevels();
     const game = new Phaser.Game(580, 720, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
     window.addEventListener("deviceorientation", handleOrientation, true);
     let ball;
@@ -23,6 +31,7 @@ function generateLevel(level) {
     let scoreText;
     let score = 0;
     let startButton;
+    let levelsButton;
     const levelBricks = level.bricks;
 
     function preload() {
@@ -39,10 +48,11 @@ function generateLevel(level) {
         game.load.image('blueBrick', 'img/brick_blue.bmp');
         game.load.image('ball', level.ballSrc, 16, 16);
         game.load.image('button', 'img/start-button.png', 120, 40);
+        game.load.image('levels', 'img/levels-button.png', 90, 30);
         game.load.image('heart', 'img/heart.png', 20, 20);
         game.load.image('right', 'img/right.png', 50, 30);
         game.load.image('left', 'img/left.png', 50, 30);
-        game.load.image('phone', 'img/phone.png', 65, 53);
+        game.load.image('phone', 'img/phone.png', 130, 106);
     }
 
     function create() {
@@ -74,10 +84,13 @@ function generateLevel(level) {
         lifeLostText.anchor.set(0.5);
         lifeLostText.visible = false;
 
-        startButton = game.add.button(game.world.width * 0.5, game.world.height * 0.5, 'button', startGame, this, 1, 0, 2);
+        startButton = game.add.button(game.world.width * 0.5, game.world.height * 0.5, 'button', startGame);
         startButton.anchor.set(0.5);
 
-        const margin = 100;
+        levelsButton = game.add.button(game.world.width * 0.5, 5, 'levels', destroyGame);
+        levelsButton.anchor.set(0.5, 0);
+
+        const margin = 150;
         left = game.add.sprite(game.world.width * 0.5 - margin, game.world.height * 0.5 + margin, 'left');
         left.anchor.set(0.5);
         right = game.add.sprite(game.world.width * 0.5 + margin, game.world.height * 0.5 + margin, 'right');
@@ -161,7 +174,8 @@ function generateLevel(level) {
         }
         else {
             alert('You lost, game over!');
-            location.reload();
+            destroyGame();
+            generateLevel(level);
         }
     }
 
@@ -171,12 +185,19 @@ function generateLevel(level) {
 
     function startGame() {
         startButton.destroy();
+        levelsButton.destroy();
         left.destroy();
         right.destroy();
         phone.destroy();
 
         ball.body.velocity.set(ballVelocity, -ballVelocity);
         playing = true;
+    }
+
+    function destroyGame() {
+        game.destroy();
+        window.removeEventListener("deviceorientation", handleOrientation);
+        showLevels();
     }
 
     function handleOrientation(e) {
