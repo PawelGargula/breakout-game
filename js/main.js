@@ -1,17 +1,19 @@
 import { levels } from "./levels.js";
 
-const levelsDom = document.querySelector(".levels");
-const hideLevels = () => levelsDom.classList.add("hide");
-const showLevels = () => levelsDom.classList.remove("hide");
-levelsDom.addEventListener("click", (e) => {
+const startPageDom = document.querySelector(".start-page");
+const hideStartPage = () => startPageDom.classList.add("hide");
+const showStartPage = () => startPageDom.classList.remove("hide");
+startPageDom.addEventListener("click", (e) => {
     if (e.target.className.includes("level")) {
-        generateLevel(levels.cosmos);
+        generateLevel(levels.formula);
     }
 });
 
+generateLevel(levels.duck);
+
 function generateLevel(level) {
-    hideLevels();
-    const game = new Phaser.Game(580, 720, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
+    hideStartPage();
+    const game = new Phaser.Game(560, 720, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
     window.addEventListener("deviceorientation", handleOrientation, true);
     let ball;
     const ballVelocity = 350;
@@ -38,14 +40,19 @@ function generateLevel(level) {
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
-        game.stage.backgroundColor = '#000';
+        game.stage.backgroundColor = level.backgroundColor;
         game.load.image('paddle', level.paddleSrc, 104, 24);
-        game.load.image('redBrick', 'img/brick_red.bmp');
-        game.load.image('orangeBrick', 'img/brick_orange.bmp');
-        game.load.image('yellowBrick', 'img/brick_yellow.bmp');
-        game.load.image('grayBrick', 'img/brick_gray.bmp');
-        game.load.image('lightGrayBrick', 'img/brick_light_gray.bmp');
+        game.load.image('beigeBrick', 'img/brick_beige.bmp');
+        game.load.image('blackBrick', 'img/brick_black.bmp');
         game.load.image('blueBrick', 'img/brick_blue.bmp');
+        game.load.image('brick', 'img/brick.bmp');
+        game.load.image('brownBrick', 'img/brick_brown.bmp');
+        game.load.image('grayBrick', 'img/brick_gray.bmp');
+        game.load.image('greenBrick', 'img/brick_green.bmp');
+        game.load.image('lightGrayBrick', 'img/brick_light_gray.bmp');
+        game.load.image('orangeBrick', 'img/brick_orange.bmp');
+        game.load.image('redBrick', 'img/brick_red.bmp');
+        game.load.image('yellowBrick', 'img/brick_yellow.bmp');
         game.load.image('ball', level.ballSrc, 16, 16);
         game.load.image('button', 'img/start-button.png', 120, 40);
         game.load.image('levels', 'img/levels-button.png', 90, 30);
@@ -129,7 +136,7 @@ function generateLevel(level) {
                 top: 60,
                 left: 60
             },
-            padding: 10
+            padding: 8
         }
         bricks = game.add.group();
         for (let c = 0; c < brickInfo.count.row; c++) {
@@ -137,6 +144,7 @@ function generateLevel(level) {
                 const coordinates = `${c},${r}`;
                 if (levelBricks.has(coordinates)) {
                     const brickX = (r * (brickInfo.width + brickInfo.padding)) + brickInfo.offset.left;
+                    console.log(brickX);;
                     const brickY = (c * (brickInfo.height + brickInfo.padding)) + brickInfo.offset.top;
                     newBrick = game.add.sprite(brickX, brickY, levelBricks.get(coordinates));
                     game.physics.enable(newBrick, Phaser.Physics.ARCADE);
@@ -154,7 +162,7 @@ function generateLevel(level) {
         scoreText.setText('Points: ' + score);
         if (score === levelBricks.size * 10) {
             alert('You won the game, congratulations!');
-            location.reload();
+            destroyGame();
         }
     }
 
@@ -174,8 +182,7 @@ function generateLevel(level) {
         }
         else {
             alert('You lost, game over!');
-            destroyGame();
-            generateLevel(level);
+            restartGame();
         }
     }
 
@@ -197,7 +204,12 @@ function generateLevel(level) {
     function destroyGame() {
         game.destroy();
         window.removeEventListener("deviceorientation", handleOrientation);
-        showLevels();
+        showStartPage();
+    }
+
+    function restartGame() {
+        destroyGame();
+        generateLevel(level);
     }
 
     function handleOrientation(e) {
