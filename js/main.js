@@ -3,13 +3,14 @@ import { levels } from "./levels.js";
 const startPageDom = document.querySelector(".start-page");
 const hideStartPage = () => startPageDom.classList.add("hide");
 const showStartPage = () => startPageDom.classList.remove("hide");
-startPageDom.addEventListener("click", (e) => {
-    if (e.target.className.includes("level")) {
-        generateLevel(levels.formula);
-    }
-});
 
-generateLevel(levels.duck);
+const levelsDom = document.querySelectorAll("[data-level]");
+levelsDom.forEach(levelDom => {
+    levelDom.addEventListener("click", () => {
+        const level = levels[levelDom.dataset.level];
+        generateLevel(level);
+    });
+});
 
 function generateLevel(level) {
     hideStartPage();
@@ -144,7 +145,6 @@ function generateLevel(level) {
                 const coordinates = `${c},${r}`;
                 if (levelBricks.has(coordinates)) {
                     const brickX = (r * (brickInfo.width + brickInfo.padding)) + brickInfo.offset.left;
-                    console.log(brickX);;
                     const brickY = (c * (brickInfo.height + brickInfo.padding)) + brickInfo.offset.top;
                     newBrick = game.add.sprite(brickX, brickY, levelBricks.get(coordinates));
                     game.physics.enable(newBrick, Phaser.Physics.ARCADE);
@@ -202,6 +202,7 @@ function generateLevel(level) {
     }
 
     function destroyGame() {
+        console.log("Destroy")
         game.destroy();
         window.removeEventListener("deviceorientation", handleOrientation);
         showStartPage();

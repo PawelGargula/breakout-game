@@ -4,27 +4,56 @@
 }
 
 * {
-    padding: 0;
-    margin: 0;
+    box-sizing: border-box;
 }
 
 body {
     background-color: #F5F7F8;
     font-family: 'Silkscreen', sans-serif;
     text-align: center;
+    margin: 0;
 }
 
-h1 {
-    color: var(--secondary-color);
+.start-page {
+    padding: 1rem;
 }
 
 .start-page.hide {
     display: none;
 }
 
+h1 {
+    color: var(--secondary-color);
+    margin-top: 0;
+}
+
+.levels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
 .level {
-    border: 2px solid var(--primary-color);
+    transition: .2s translate;
+}
+
+.level:hover {
+    cursor: pointer;
+    translate: 0 -0.6rem;
+}
+
+.level img {
+    border: 6px solid var(--primary-color);
     border-radius: 6px;
+    height: auto;
+    max-width: 560px;
+    max-height: 420px;
+    width: 100%;
+}
+
+.level p {
+    margin-block: 0;
 }
 
 canvas {
