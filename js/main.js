@@ -204,7 +204,7 @@ function generateLevel(level) {
     function destroyGame() {
         game.destroy();
         window.removeEventListener("deviceorientation", handleOrientation);
-        setTimeout(showStartPage, 1);
+        setTimeout(showStartPage, 10);
     }
 
     function restartGame() {
