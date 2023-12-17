@@ -23,9 +23,9 @@ const markWonLevels = () => {
 };
 markWonLevels();
 
-let ballVelocity = 600;
+let ballVelocity = 650;
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    ballVelocity = 350;
+    ballVelocity = 400;
 }
 
 function generateLevel(level, name) {
@@ -198,7 +198,7 @@ function generateLevel(level, name) {
             game.input.onDown.addOnce(function () {
                 lifeLostText.visible = false;
                 playing = true;
-                ball.body.velocity.set(ballVelocity, -ballVelocity);
+                ball.body.velocity.set(ballVelocity / 2, -ballVelocity);
             }, this);
         }
         else {
@@ -218,7 +218,7 @@ function generateLevel(level, name) {
         right.destroy();
         phone.destroy();
 
-        ball.body.velocity.set(ballVelocity, -ballVelocity);
+        ball.body.velocity.set(ballVelocity / 2, -ballVelocity);
         playing = true;
     }
 
