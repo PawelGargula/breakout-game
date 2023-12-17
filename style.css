@@ -37,6 +37,7 @@ h1 {
 
 .level {
     transition: .2s translate;
+    position: relative;
 }
 
 .level:hover {
@@ -55,6 +56,19 @@ h1 {
 
 .level p {
     margin-block: 0;
+}
+
+.level.won img {
+    opacity: .7;
+}
+
+.level.won::after {
+    content: "✔";
+    color: green;
+    font-size: 2rem;
+    position: absolute;
+    top: .5rem;
+    right: 1rem;
 }
 
 canvas {

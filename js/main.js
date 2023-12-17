@@ -8,16 +8,27 @@ const levelsDom = document.querySelectorAll("[data-level]");
 levelsDom.forEach(levelDom => {
     levelDom.addEventListener("click", () => {
         const level = levels[levelDom.dataset.level];
-        generateLevel(level);
+        generateLevel(level, levelDom.dataset.level);
     });
 });
 
-function generateLevel(level) {
+const wonLevelsKey = "wonLevels";
+const getWonLevelsString = () => localStorage.getItem(wonLevelsKey);
+getWonLevelsString() === null && localStorage.setItem(wonLevelsKey, "");
+const markWonLevels = () => {
+    const wonLevelsArr = getWonLevelsString().split(",");
+    levelsDom.forEach(levelDom => {
+        wonLevelsArr.includes(levelDom.dataset.level) && levelDom.classList.add("won");
+    });
+};
+markWonLevels();
+
+function generateLevel(level, name) {
     hideStartPage();
     const game = new Phaser.Game(560, 720, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
     window.addEventListener("deviceorientation", handleOrientation, true);
     let ball;
-    const ballVelocity = 400;
+    const ballVelocity = 600;
     let brickInfo;
     let bricks;
     let isPortrait = window.matchMedia("(orientation: portrait)").matches;
@@ -163,6 +174,12 @@ function generateLevel(level) {
         if (score === levelBricks.size * 10) {
             showNotification('You won the game, congratulations!', true);
             destroyGame();
+
+            const wonLevelsString = getWonLevelsString();
+            if (!wonLevelsString.includes(name)) {
+                localStorage.setItem(wonLevelsKey, `${wonLevelsString}${name},`);
+                markWonLevels();
+            }
         }
     }
 
@@ -227,5 +244,5 @@ function showNotification(message, isSuccess) {
     notification.textContent = message;
     const body = document.body;
     body.appendChild(notification);
-    setTimeout(() => body.removeChild(notification), 3000);
+    setTimeout(() => body.removeChild(notification), 5000);
 }
