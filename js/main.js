@@ -25,7 +25,7 @@ markWonLevels();
 
 let ballVelocity = 600;
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    ballVelocity = 400;
+    ballVelocity = 350;
 }
 
 function generateLevel(level, name) {
