@@ -17,7 +17,7 @@ function generateLevel(level) {
     const game = new Phaser.Game(560, 720, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
     window.addEventListener("deviceorientation", handleOrientation, true);
     let ball;
-    const ballVelocity = 350;
+    const ballVelocity = 400;
     let brickInfo;
     let bricks;
     let isPortrait = window.matchMedia("(orientation: portrait)").matches;
@@ -161,7 +161,7 @@ function generateLevel(level) {
         score += 10;
         scoreText.setText('Points: ' + score);
         if (score === levelBricks.size * 10) {
-            alert('You won the game, congratulations!');
+            showNotification('You won the game, congratulations!', true);
             destroyGame();
         }
     }
@@ -181,7 +181,7 @@ function generateLevel(level) {
             }, this);
         }
         else {
-            alert('You lost, game over!');
+            showNotification('You lost, try again!');
             destroyGame();
         }
     }
@@ -218,4 +218,14 @@ function generateLevel(level) {
             paddle.x += y;
         }
     }
+}
+
+function showNotification(message, isSuccess) {
+    const notification = document.createElement("span");
+    notification.classList.add("notification");
+    isSuccess && notification.classList.add("success");
+    notification.textContent = message;
+    const body = document.body;
+    body.appendChild(notification);
+    setTimeout(() => body.removeChild(notification), 3000);
 }
