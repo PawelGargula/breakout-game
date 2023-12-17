@@ -11,6 +11,6 @@
 
 ## Screenshots
 
-![Desktop](screenshots/desktop.png)
+![Breakout - Desktop](screenshots/desktop.png)
 
-![Mobile](screenshots/mobile.png)
+![Breakout - Mobile](screenshots/mobile.png)
