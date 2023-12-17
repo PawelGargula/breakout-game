@@ -23,12 +23,16 @@ const markWonLevels = () => {
 };
 markWonLevels();
 
+let ballVelocity = 600;
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    ballVelocity = 400;
+}
+
 function generateLevel(level, name) {
     hideStartPage();
     const game = new Phaser.Game(560, 720, Phaser.CANVAS, null, { preload: preload, create: create, update: update });
     window.addEventListener("deviceorientation", handleOrientation, true);
     let ball;
-    const ballVelocity = 600;
     let brickInfo;
     let bricks;
     let isPortrait = window.matchMedia("(orientation: portrait)").matches;
