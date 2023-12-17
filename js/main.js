@@ -182,7 +182,7 @@ function generateLevel(level) {
         }
         else {
             alert('You lost, game over!');
-            restartGame();
+            destroyGame();
         }
     }
 
@@ -205,11 +205,6 @@ function generateLevel(level) {
         game.destroy();
         window.removeEventListener("deviceorientation", handleOrientation);
         setTimeout(showStartPage, 10);
-    }
-
-    function restartGame() {
-        destroyGame();
-        generateLevel(level);
     }
 
     function handleOrientation(e) {
