@@ -45,6 +45,11 @@ h1 {
     translate: 0 -0.6rem;
 }
 
+.level {
+    max-width: 560px;
+    width: 100%;
+}
+
 .level img {
     border: 6px solid var(--primary-color);
     border-radius: 6px;
